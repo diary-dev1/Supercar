@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supercar - Vente de Voitures de Luxe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h2><i class="fas fa-car-side"></i> Supercar </h2>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#" data-page="accueil" class="nav-link active">Accueil</a></li>
+                    <li><a href="#" data-page="voitures" class="nav-link">Voitures</a></li>
+                    <li><a href="#" data-page="demande-essai" class="nav-link">Demande Essai</a></li>
+                    <li><a href="#" data-page="service" class="nav-link">Service</a></li>
+                    <li><a href="#" data-page="contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-section">
+                <div id="user-info" class="user-info" style="display: none;">
+                    <span id="username"></span>
+                    <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+                </div>
+                <button id="login-btn" class="btn btn-primary">Connexion</button>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Page Accueil -->
+        <section id="accueil" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">L'Excellence Automobile</h1>
+                    <p class="hero-description">Découvrez notre collection exclusive de supercars d'exception</p>
+                    <button class="btn btn-gold btn-large" data-page="voitures">Découvrir nos Voitures</button>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg" alt="Supercar Hero">
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="container">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-trophy"></i>
+                            <h3>Prestige</h3>
+                            <p>Les marques les plus prestigieuses du monde</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Garantie</h3>
+                            <p>Garantie complète sur tous nos véhicules</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-tools"></i>
+                            <h3>Service</h3>
+                            <p>Service après-vente d'excellence</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Voitures -->
+        <section id="voitures" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Nos Supercars</h1>
+                    <p>Collection exclusive de véhicules d'exception</p>
+                </div>
+                <div class="cars-grid" id="cars-grid">
+                    <!-- Les voitures seront générées par JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Demande Essai -->
+        <section id="demande-essai" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Demande d'Essai</h1>
+                    <p>Réservez votre essai avec nos conseillers experts</p>
+                </div>
+                <div class="form-container">
+                    <form id="essai-form" class="essai-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="car-select">Véhicule souhaité</label>
+                                <select id="car-select" name="car" required>
+                                    <option value="">Sélectionner une voiture</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date souhaitée</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="time">Heure préférée</label>
+                                <select id="time" name="time" required>
+                                    <option value="">Sélectionner une heure</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Téléphone</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message (optionnel)</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">Réserver l'Essai</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Service -->
+        <section id="service" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Nos Services</h1>
+                    <p>Un accompagnement premium pour votre expérience automobile</p>
+                </div>
+                <div class="services-grid" id="services-grid">
+                    <!-- Les services seront générés par JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Contact -->
+        <section id="contact" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Nous Contacter</h1>
+                    <p>Notre équipe d'experts est à votre disposition</p>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h3>Adresse</h3>
+                                <p>Ebène, Plaines Wilhems<br>Maurice</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h3>Téléphone</h3>
+                                <p>+230 70034827</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h3>Email</h3>
+                                <p>contact@supercar</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h3>Horaires</h3>
+                                <p>Lun-Ven: 9h-19h<br>Sam: 9h-17h</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" name="nom" placeholder="Votre nom" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Votre email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="sujet" placeholder="Sujet" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Votre message" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">Envoyer le Message</button>
+                    </form>
+                </div>
+                
+                <!-- Nouvelle section carte Google Maps -->
+                <div class="map-section">
+                    <div class="container">
+                        <div class="page-header">
+                            <h2>Notre Localisation</h2>
+                            <p>Trouvez-nous facilement à Ebène, Maurice</p>
+                        </div>
+                        <div class="map-container">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.3007243866996!2d57.48671831169145!3d-20.246359148161172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x217c5b1ef2170f63%3A0xd1a78020fc096491!2sMCCI%20BUSINESS%20SCHOOL%20(Mauritius%20Chamber%20of%20Commerce%20and%20Industry)!5e0!3m2!1sfr!2smu!4v1758461466273!5m2!1sfr!2smu" 
+                                width="100%" 
+                                height="450" 
+                                style="border:0; border-radius: 12px;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Localisation Supercar Elite - MCCI Business School, Ébène">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Login -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Connexion</button>
+                <button class="tab-btn" data-tab="register">Inscription</button>
+            </div>
+            
+            <div id="login-tab" class="tab-content active">
+                <h3>Connexion</h3>
+                <form id="login-form">
+                    <div class="form-group">
+                        <input type="email" id="login-email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="login-password" placeholder="Mot de passe" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">Se Connecter</button>
+                </form>
+            </div>
+            
+            <div id="register-tab" class="tab-content">
+                <h3>Inscription</h3>
+                <form id="register-form">
+                    <div class="form-group">
+                        <input type="text" id="register-name" placeholder="Nom complet" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="register-email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="register-phone" placeholder="Téléphone" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="register-password" placeholder="Mot de passe" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">S'Inscrire</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
