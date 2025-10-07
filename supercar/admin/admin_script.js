@@ -268,7 +268,62 @@ async function loadCars() {
     }
 }
 
-// Bookings - CORRECTION APPLIQUÉE ICI
+// MODIFICATION IMPORTANTE POUR LE MODAL VOITURE
+async function handleCarFormSubmit(e) {
+    e.preventDefault();
+    
+    const carId = document.getElementById('car-id').value;
+    const imageInput = document.getElementById('car-image').value;
+    
+    // Si l'utilisateur a saisi juste un nom de fichier (sans chemin), ajouter le préfixe
+    let finalImagePath = imageInput;
+    if (imageInput && !imageInput.startsWith('http') && !imageInput.startsWith('images/')) {
+        finalImagePath = 'images/cars/' + imageInput;
+    }
+    
+    const formData = {
+        name: document.getElementById('car-name').value,
+        brand: document.getElementById('car-brand').value,
+        price: parseFloat(document.getElementById('car-price').value),
+        power: document.getElementById('car-power').value,
+        max_speed: document.getElementById('car-speed').value,
+        acceleration: document.getElementById('car-acceleration').value,
+        image_url: finalImagePath, // UTILISE LE CHEMIN LOCAL
+        description: document.getElementById('car-description').value,
+        available: document.getElementById('car-available').checked
+    };
+    
+    // Ajouter l'ID si on modifie
+    if (carId) {
+        formData.id = parseInt(carId);
+    }
+    
+    try {
+        const method = carId ? 'PUT' : 'POST';
+        const response = await fetch(`${API_BASE}/admin_manage_cars.php`, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showNotification(carId ? 'Voiture modifiée avec succès' : 'Voiture ajoutée avec succès', 'success');
+            closeCarModal();
+            loadCars();
+        } else {
+            showNotification(data.message || 'Erreur lors de l\'enregistrement', 'error');
+        }
+    } catch (error) {
+        console.error('Erreur sauvegarde voiture:', error);
+        showNotification('Erreur lors de l\'enregistrement', 'error');
+    }
+}
+
+// Bookings
 async function loadBookings(statusFilter = '') {
     try {
         const url = statusFilter ? 
@@ -460,10 +515,8 @@ async function updateBookingStatus(bookingId, status) {
     }
 }
 
-// FONCTION CORRIGÉE - Affichage des détails d'une demande d'essai
 async function viewBookingDetails(bookingId) {
     try {
-        // Récupérer toutes les demandes d'essai pour trouver celle avec l'ID correspondant
         const response = await fetch(`${API_BASE}/admin_manage_bookings.php`);
         const data = await response.json();
         
@@ -471,7 +524,6 @@ async function viewBookingDetails(bookingId) {
             const booking = data.data.find(b => b.id === bookingId);
             
             if (booking) {
-                // Créer une fenêtre modale pour afficher les détails
                 showBookingModal(booking);
             } else {
                 showNotification('Demande d\'essai non trouvée', 'error');
@@ -486,7 +538,6 @@ async function viewBookingDetails(bookingId) {
 }
 
 function showBookingModal(booking) {
-    // Créer le modal s'il n'existe pas
     let modal = document.getElementById('booking-details-modal');
     if (!modal) {
         modal = document.createElement('div');
@@ -536,7 +587,6 @@ function showBookingModal(booking) {
         modal.style.display = 'block';
     }
     
-    // Remplir les données
     document.getElementById('modal-client-name').textContent = booking.user.name;
     document.getElementById('modal-client-email').textContent = booking.user.email;
     document.getElementById('modal-client-phone').textContent = booking.phone;
@@ -548,7 +598,6 @@ function showBookingModal(booking) {
     document.getElementById('modal-created-date').textContent = new Date(booking.created_at).toLocaleString('fr-FR');
     document.getElementById('modal-updated-date').textContent = new Date(booking.updated_at).toLocaleString('fr-FR');
     
-    // Fermer en cliquant à l'extérieur
     modal.addEventListener('click', function(event) {
         if (event.target === modal) {
             closeBookingModal();
@@ -726,7 +775,6 @@ Date: ${message.formatted_date}
 Message:
 ${message.message}
             `);
-            // Recharger les messages pour refléter le changement de statut
             loadMessages();
         } else {
             showNotification('Erreur lors du chargement du message', 'error');
@@ -737,25 +785,21 @@ ${message.message}
     }
 }
 
-// Gestion des modaux
+// Gestion des modals
 function setupModalEvents() {
-    // Modal voiture
     const carModal = document.getElementById('car-modal');
     const carForm = document.getElementById('car-form');
     
-    // Fermer les modaux en cliquant à l'extérieur
     window.addEventListener('click', (event) => {
         if (event.target === carModal) {
             closeCarModal();
         }
     });
     
-    // Formulaire voiture
     if (carForm) {
         carForm.addEventListener('submit', handleCarFormSubmit);
     }
     
-    // Filtres
     const bookingFilter = document.getElementById('booking-status-filter');
     if (bookingFilter) {
         bookingFilter.addEventListener('change', function() {
@@ -768,52 +812,6 @@ function setupModalEvents() {
         messageFilter.addEventListener('change', function() {
             loadMessages(this.value);
         });
-    }
-}
-
-async function handleCarFormSubmit(e) {
-    e.preventDefault();
-    
-    const carId = document.getElementById('car-id').value;
-    const formData = {
-        name: document.getElementById('car-name').value,
-        brand: document.getElementById('car-brand').value,
-        price: parseFloat(document.getElementById('car-price').value),
-        power: document.getElementById('car-power').value,
-        max_speed: document.getElementById('car-speed').value,
-        acceleration: document.getElementById('car-acceleration').value,
-        image_url: document.getElementById('car-image').value,
-        description: document.getElementById('car-description').value,
-        available: document.getElementById('car-available').checked
-    };
-    
-    // Ajouter l'ID si on modifie
-    if (carId) {
-        formData.id = parseInt(carId);
-    }
-    
-    try {
-        const method = carId ? 'PUT' : 'POST';
-        const response = await fetch(`${API_BASE}/admin_manage_cars.php`, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            showNotification(carId ? 'Voiture modifiée avec succès' : 'Voiture ajoutée avec succès', 'success');
-            closeCarModal();
-            loadCars();
-        } else {
-            showNotification(data.message || 'Erreur lors de l\'enregistrement', 'error');
-        }
-    } catch (error) {
-        console.error('Erreur sauvegarde voiture:', error);
-        showNotification('Erreur lors de l\'enregistrement', 'error');
     }
 }
 
@@ -854,6 +852,7 @@ async function loadCarData(carId) {
                 document.getElementById('car-power').value = car.power || '';
                 document.getElementById('car-speed').value = car.max_speed || '';
                 document.getElementById('car-acceleration').value = car.acceleration || '';
+                // Afficher le chemin complet de l'image
                 document.getElementById('car-image').value = car.image_url || '';
                 document.getElementById('car-description').value = car.description || '';
                 document.getElementById('car-available').checked = car.available;
@@ -869,14 +868,12 @@ function editCar(carId) {
     openCarModal(carId);
 }
 
-// Fonctions pour les services
 function editService(serviceId) {
     openServiceModal(serviceId);
 }
 
 function openServiceModal(serviceId = null) {
     if (serviceId) {
-        // Mode édition - récupérer les données du service
         fetch(`${API_BASE}/admin_manage_services.php`)
             .then(response => response.json())
             .then(data => {
@@ -892,7 +889,6 @@ function openServiceModal(serviceId = null) {
                 showNotification('Erreur lors du chargement du service', 'error');
             });
     } else {
-        // Mode création
         createServicePrompt();
     }
 }
